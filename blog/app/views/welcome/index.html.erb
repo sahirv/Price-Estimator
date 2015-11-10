@@ -32,9 +32,9 @@ $("#submit").click(function(){
     url += "&paginationInput.entriesPerPage=10";
 	
 	// Submit the request
-s=document.createElement('script'); // create script element
-s.src= url;
-document.body.appendChild(s);
+	s=document.createElement('script'); // create script element
+	s.src= url;
+	document.body.appendChild(s);
 
 });
 
@@ -44,12 +44,14 @@ function _cb_findItemsByKeywords(root)
     var priceArray = []
     for (var i = 0; i < items.length; ++i) {
       var item = items[i];
-      priceArray.push(item.sellingStatus[0].currentPrice[0].__value__);
+      //priceArray.push(item.sellingStatus[0].currentPrice[0].__value__);
+	  console.log(item.sellingStatus[0].currentPrice[0].__value__);
     }
 
-    $("#priceArray").val(items);
-    console.log($("#priceArray").val())
-    $("#searchButton").click();
+	
+    // $("#priceArray").val(items);
+    // console.log($("#priceArray").val())
+    // $("#searchButton").click();
 }
 </script>
 

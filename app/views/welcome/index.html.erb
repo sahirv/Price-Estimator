@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,6 +21,12 @@
       <button id="search-go" class="search-go">Go</button>
     </div>
     <div class="results"></div>
+
+    <%= form_tag("welcome/search", method: "post", hidden: "hidden", id:"form") do %>
+    <%= hidden_field_tag(:priceArray) %>
+    <%= submit_tag("Search", id: "searchButton") %>
+    
+<% end %>
     <script src="/assets/script.js"></script>
   </body>
 </html>

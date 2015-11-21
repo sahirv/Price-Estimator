@@ -18,6 +18,7 @@ $(document).ready(function(){
 		});
 
 		request.done(function(response){
+			_cb_findItemsByKeywords(response);
 			console.log(response);
 		});
 
@@ -26,3 +27,17 @@ $(document).ready(function(){
 		})
 	});
 });
+
+function _cb_findItemsByKeywords(root)
+{
+    var items = root.findItemsByKeywordsResponse[0].searchResult[0].item || [];
+    var priceArray = []
+    for (var i = 0; i < items.length; ++i) {
+      var item = items[i];
+      priceArray.push(item.sellingStatus[0].currentPrice[0].__value__);
+    }
+
+  
+    $("#priceArray").val(JSON.stringify(items));
+    $("#searchButton").click();
+}

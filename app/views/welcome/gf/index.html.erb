@@ -44,14 +44,14 @@ function _cb_findItemsByKeywords(root)
     var priceArray = []
     for (var i = 0; i < items.length; ++i) {
       var item = items[i];
-      //priceArray.push(item.sellingStatus[0].currentPrice[0].__value__);
+      priceArray.push(item.sellingStatus[0].currentPrice[0].__value__);
 	  console.log(item.sellingStatus[0].currentPrice[0].__value__);
     }
 
 	
-    // $("#priceArray").val(items);
+    $("#priceArray").val(JSON.stringify(items));
     // console.log($("#priceArray").val())
-    // $("#searchButton").click();
+    $("#searchButton").click();
 }
 </script>
 

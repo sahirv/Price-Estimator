@@ -1,0 +1,2 @@
+"ListingType" = "Chinese" = 0.3333333
+"ConditionDisplayName" = "New" = 0.333333

@@ -13,7 +13,8 @@ $(document).ready(function(){
 				'GLOBAL-ID': 'EBAY-US',
 				'RESPONSE-DATA-FORMAT': 'JSON',
 				'callback': '_cb_findItemsByKeywords',
-				'keywords': item
+				'keywords': item,
+				'paginationInput.entriesPerPage': 2
 			}
 		});
 
@@ -38,6 +39,7 @@ function _cb_findItemsByKeywords(root)
     }
 
   
-    $("#priceArray").val(JSON.stringify(items));
+    $("#jsonResult").val(JSON.stringify(items));
     $("#searchButton").click();
-}
+}	
+

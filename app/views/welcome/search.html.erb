@@ -3,6 +3,39 @@
 </head>
 <h1>Search Results</h1>
 <body>
-<%= @result %>
+
+	<p> Price Estimate: <%= @finalPrice %> </p>
+
+
+	<table border="1">
+		<tr>
+			<% @attributes.each do |attribute| %>
+			<th>
+			<%= attribute %>
+			</th>
+			<% end %>
+
+			<th>Weight</td>
+			<th>Price</td>
+		</tr>
+
+		<% @results.each do |r| %>
+		<tr>
+			<% @attributes.each do |a| %>
+			<td>
+			<%= r.detailsHash[a] %>
+			</td>
+			<% end %>
+
+			<td>
+			<%= '%.4f' % r.weightTowardsFinal %>
+			</td>
+
+			<td>
+			<%= '%.4f' % r.priceUsd %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
 </body>
 </html>

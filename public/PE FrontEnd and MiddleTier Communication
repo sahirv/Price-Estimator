@@ -1,0 +1,5 @@
+Front end will receive a JSON string containing an array of inputs as shown below:
+
+[{"inputId":"4675","inputTitle":"Listing Type","inputType":"dropdown","inputOptions":"Chinese, Fixed Price Item","inputDefault":"none"},{"inputId":"4937","inputTitle":"Condition","inputType":"dropdown","inputOptions":"Used, New","inputDefault":"none"}]
+
+For each input, an input tag will be created with the name being the "inputId" of that input object. These input tags will be placed in the form targeted towards the search action.

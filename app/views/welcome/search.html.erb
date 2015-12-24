@@ -1,41 +1,55 @@
+<% require "#{Rails.root}/app/Ebay Data/EbayData.rb" %>
 <html>
 <head>
 </head>
 <h1>Search Results</h1>
 <body>
 
-	<p> Price Estimate: <%= @finalPrice %> </p>
+	<!-- Only try to display results if no error -->
+	<% if !@error.empty? %>
+		<%= @error %>
+	<% else %>
 
-
-	<table border="1">
-		<tr>
-			<% @attributes.each do |attribute| %>
-			<th>
-			<%= attribute %>
-			</th>
+		<p> Price Estimate: <%= @finalPrice %> </p>
+	
+	
+		<table border="1">
+			<tr>
+				<% @attributes.each do |attribute| %>
+				<th>
+				<%= attribute %>
+				</th>
+				<% end %>
+	
+				<th>Weight</td>
+				<th>Price</td>
+			</tr>
+	
+			<% @results.each do |r| %>
+			<tr>
+				<% @attributes.each do |a| %>
+				<td>
+				<%= if r.detailsHash[a] != nil 
+						r.detailsHash[a]
+					elsif EbayData.GetNameValueFromHash(r.detailsHash, a) != nil
+						EbayData.GetNameValueFromHash(r.detailsHash, a)
+					else
+						a + " Not Found"
+					end%>
+				</td>
+				<% end %>
+	
+				<td>
+				<%= '%.4f' % r.weightTowardsFinal %>
+				</td>
+	
+				<td>
+				<%= '%.4f' % r.priceUsd %>
+				</td>
+			</tr>
 			<% end %>
+		</table>
 
-			<th>Weight</td>
-			<th>Price</td>
-		</tr>
-
-		<% @results.each do |r| %>
-		<tr>
-			<% @attributes.each do |a| %>
-			<td>
-			<%= r.detailsHash[a] %>
-			</td>
-			<% end %>
-
-			<td>
-			<%= '%.4f' % r.weightTowardsFinal %>
-			</td>
-
-			<td>
-			<%= '%.4f' % r.priceUsd %>
-			</td>
-		</tr>
-		<% end %>
-	</table>
+	<% end %>
 </body>
 </html>

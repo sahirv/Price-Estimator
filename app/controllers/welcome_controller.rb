@@ -3,84 +3,94 @@ require 'json'
 require 'net/http'
 require 'uri'
 require "#{Rails.root}/app/models/Result Item/ResultItem.rb"
+require "#{Rails.root}/app/models/Match Test/MatchTest.rb"
+require "#{Rails.root}/app/Ebay Data/EbayData.rb"
 
 class WelcomeController < ApplicationController
 
   def index
+    if !(Dir.pwd.include? "public")
+      Dir.chdir("public")
+    end
+    detailsFile = File.open("details.txt", "r")
+
+    # read the details files to get the inputs for the category
+    @inputs = []
+    detailsFile.readlines.each_with_index do |detail, i|
+      if i > 1
+        inputId = (detail.split("|")[0]).strip
+        inputString = (detail.split("|")[2]).strip
+        inputType = inputString.split("=")[0].strip
+        inputOptions = inputString.split("=")[1].strip
+        inputDefault = inputString.split("=")[2].strip
+        inputTitle = inputString.split("=")[3].strip
+
+        input = {"inputId" => inputId, "inputTitle" => inputTitle, "inputType" => inputType, "inputOptions" => inputOptions, "inputDefault" => inputDefault}
+        @inputs.push(input)
+      end
+    end
+
+    @inputs = JSON.generate(@inputs)
+
+    detailsFile.close
   end
 
   def search
 
+    @error = ""
     @attributes = []
+    matchTests = []
 
+    # TODO: Instead of a file, get pre-stored data from a database and add an interface for changing that data
     if !(Dir.pwd.include? "public")
       Dir.chdir("public")
     end
     detailsFile = File.open("details.txt", "r")
 
     keyword = params[:keyword]
-    numberOfResults = params[:numberOfResults]
-    resultsArray = WelcomeController.GetResultsFromEbay(keyword, numberOfResults)
-    
+    categoryId = detailsFile.readline
+    numberOfResults = detailsFile.readline.to_i
+
+    # Read the category file and get the match tests
+    detailsFile.readlines.each do |detail|
+      id = (detail.split("|")[0]).strip
+      matchTests.push(MatchTest.new(
+        id, 
+        ((detail.split("|")[1]).split("=")[0]).strip, 
+        ((detail.split("|")[1]).split("=")[1]).strip.to_f,
+        params[id]))
+    end
+
+    detailsFile.close
 
     # Get results from Ebay
-    details = detailsFile.readlines.each do |detail|
-    attributeName = ((detail.split("=")[0]).strip).tr('"', '')
-    matchValue = ((detail.split("=")[1]).strip).tr('"', '')
-    weightConstant = ((detail.split("=")[2]).strip).to_f
-
-    @attributes.push(attributeName)
-
-    resultsArray = WelcomeController.AssignWeightByAttributes(resultsArray, attributeName, matchValue, weightConstant)
+    resultsArray = EbayData.GetResultsFromEbay(keyword, numberOfResults)
+    if resultsArray == false
+      @error = "Their was an error in the request. Please try again later."
+      return
     end
 
-    @finalPrice = 0.0
-    resultsArray.each do |result|
-      @finalPrice += (result.priceUsd * result.weightTowardsFinal)
-    end
-    
-    @results = resultsArray
-
-  end
-
-  # This method calls the Ebay Api's and returns their results in an array of hashes
-  def self.GetResultsFromEbay( nameOfProduct, numberOfResults )
-
-    resultsHashArray = []
-
-    # Request results from the Ebay Finding Api with the nameOfProduct and numberOfEntries as the main parameters
-    findingApiUrl = URI.parse("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=PriceApp-6d57-4fa0-bd01-63c74270c501&GLOBAL-ID=EBAY-US&RESPONSE-DATA-FORMAT=JSON&keywords=#{nameOfProduct}&paginationInput.entriesPerPage=#{numberOfResults}&_=1448672487493")
-    findingApiResults = WelcomeController.SendHttpRequest(findingApiUrl)["findItemsByKeywordsResponse"][0]["searchResult"][0]["item"]
-    itemIdArray = []
-
-    findingApiResults.each do |result|
-      itemId = result["itemId"][0]
-      itemIdArray.push(itemId)
-    end
-
-    itemString = ""
-    itemIdArray.each_with_index do |itemId, i|
-      itemString += (itemId)
-      if i != (itemIdArray.length - 1)
-        itemString += (",")
+    if resultsArray.length < numberOfResults
+      weigthMultiplier = (numberOfResults / resultsArray.length.to_f)
+      matchTests.each do |matchTest|
+        matchTest.weightConstant *= weigthMultiplier
       end
     end
 
-    # Request results from the Ebay Shopping Api with the ItemId
-    shoppingApiUrl = URI.parse(URI.unescape("http://open.api.ebay.com/shopping?callname=GetMultipleItems&responseencoding=JSON&appid=PriceApp-6d57-4fa0-bd01-63c74270c501&siteid=0&version=661&IncludeSelector=ItemSpecifics&ItemID=#{itemString}"))
-    shoppingApiResults = WelcomeController.SendHttpRequest(shoppingApiUrl)["Item"]
-
-    resultItems = []
-
-    shoppingApiResults.each do |result|
-      resultItems.push(ResultItem.new(
-        1.0/shoppingApiResults.length,
-        result,
-        result["ConvertedCurrentPrice"]["Value"]))
-
+    # Run the algorithm for each match test
+    matchTests.each do |matchTest|
+      resultsArray = ResultItem.AssignWeightByAttributes(resultsArray, matchTest.attributeName, matchTest.matchValue, matchTest.weightConstant)
+      @attributes.push(matchTest.attributeName)
     end
 
-    return resultItems
+    # Calculate the final price using the final weights of each result
+    @finalPrice = 0.0
+    resultsArray.each do |result|
+      @finalPrice += (result.priceUsd * result.weightTowardsFinal)
+      logger.debug EbayData.GetNameValueFromHash(result.detailsHash, "Brand")
+    end
+    
+    @results = resultsArray
   end
 
   def self.FilterByCondition (results, condition)
@@ -157,35 +167,6 @@ class WelcomeController < ApplicationController
     end 
 
     return responseParsed
-  end
-
-    # This method takes in an array of ResultItems and alters the weight by weightConstant of each depending on whether
-  # its value for the attributeName matches the matchValue
-  def self.AssignWeightByAttributes(resultsArray, attributeName, matchValue, weightConstant)
-    
-    newArray = resultsArray.clone
-
-    logger.debug newArray[0].detailsHash[attributeName]
-    
-    totalDepeciation = 0
-    arrayOfMatchingIndices = []
-
-    newArray.each_with_index do |result, i|
-      if result.detailsHash[attributeName] != matchValue
-        result.weightTowardsFinal -= weightConstant
-        totalDepeciation += weightConstant
-      else
-        arrayOfMatchingIndices.push(i)
-      end
-    end
-
-    appreciationPerMatch = totalDepeciation / arrayOfMatchingIndices.length
-    arrayOfMatchingIndices.each do |index|
-      newArray[index].weightTowardsFinal += appreciationPerMatch
-    end
-
-    return newArray
-
   end
 
 end

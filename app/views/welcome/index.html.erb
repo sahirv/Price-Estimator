@@ -22,11 +22,14 @@
     <input type="text" id="keyword" name="keyword" class="input-txt" placeholder="Product name">
     <br>
     <input type="text" id="numberOfResults" name="numberOfResults" class="input-txt" placeholder="How many results?">
+    <input type="text" id="4675" name="4675" class="input-txt" placeholder="Testing input?">
+
     <%= hidden_field_tag(:condition) %>
     <%= submit_tag("Go", id: "searchButton", class: "search-go") %>
     </div>
     <div class="results"></div>
 
+    <%= @inputs %>
 
 <% end %>
     <script src="/assets/script.js"></script>

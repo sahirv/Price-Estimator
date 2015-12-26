@@ -1,2 +1,4 @@
-"ListingType" = "Chinese" = 0.3333333
-"ConditionDisplayName" = "New" = 0.333333
+a6h47g36
+20
+4675 | Model = 0.03 | dropdown = Chinese, Fixed Price Item = none = Listing Type
+4937 | ConditionDisplayName = 0.02 | dropdown = Used, New = none = Condition

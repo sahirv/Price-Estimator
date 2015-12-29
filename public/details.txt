@@ -1,4 +1,14 @@
 a6h47g36
-20
-4675 | Model = 0.03 | dropdown = Chinese, Fixed Price Item = none = Listing Type
-4937 | ConditionDisplayName = 0.02 | dropdown = Used, New = none = Condition
+100
+A121 | ConditionDisplayName = 0.0018 | dropdown = New, Certified pre-owned, Used = None = Condition
+BB14 | Trim = 0.0005 | 
+B14A | NumberOfCylinders = 0.0002 | dropdown = 3, 4, 5, 6, 8, 10, 12 = None = Number of Cylinders 
+CF12 | VehicleTitle = 0.0004 | dropdown =  Clear, Flood Water Damage, Lemon & Manufacturer Buyback, Rebuilt Rebuildable & Reconstructed, Salvage = None = Condition Description
+FD16 | DriveType = 0.0004 | dropdown = FWD, RWD, AWD, 4WD = Drive Type
+66SE | Mileage = 0.0018 | dropdown = Less Than 1000 Miles, Less Than 5000 Miles, Less Than 7500 Miles, Less Than 10000 Miles, Less Than 20000 Miles, Less Than 36000 Miles, Less Than 50000 Miles, Less Than 75000 Miles, Less Than 100000 Miles, Less Than 125000 Miles, Less Than 150000 Miles, Less Than 175000 Miles, 200000 Miles and More = None = Mileage
+77EF | Transmission = 0.0008 | dropdown = Automatic, Manual = None = Transmission
+VF15 | FuelType = 0.0008 | dropdown = Bi-Fuel, Flex-Fuel, Diesel, Gasoline = None = Fuel Type
+DB09 | Option = 0.0009 | multiplechoice = Leather Seats, Sunroof, Xenon Headlights, Cold Weather Package, M Sports Package, Adaptive M Suspension, Navigation System, Driver Assistance Package, CD Player = None = Options
+18QA | PowerOption = 0.0006 | multiplechoice = Air Conditioning, Power Seats, Cruise Control, Power Locks, Power Windows, Power Seats = None = Power Options
+10OO | SafetyFeatures" = 0.0004 | multiplechoice = Anti-lock Brakes, Air-bags, Passenger Air-bags, Side Air-bags = None = Safety Features
+

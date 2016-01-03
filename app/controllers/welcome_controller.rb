@@ -52,8 +52,9 @@ class WelcomeController < ApplicationController
     numberOfResults = detailsFile.readline.to_i
 
     # Read the category file and get the match tests
-    detailsFile.readlines.each do |detail|
+    detailsFile.readlines.each_with_index do |detail, i|
       id = (detail.split("|")[0]).strip
+      logger.debug i
       matchTests.push(MatchTest.new(
         id, 
         ((detail.split("|")[1]).split("=")[0]).strip, 

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Matchtests</h1>
+
+  <table border="1" style="width=100%">
+  <tbody>
+    <tr>
+      <td><b>Matchtest ID<b></td>
+      <td><b>Attribute Name<b></td>
+      <td><b>Attribute Key<b></td>
+      <td><b>Inputs<b></td>
+      <td><b>Info<b></td>
+      <td><b>Input Type<b></td>
+      <td><b>Default Value<b></td>
+    </tr>
+
+      <% @matchtests.each do |matchtest| %>
+    <tr>
+      <td><%= matchtest.id %></td>
+      <td><%= matchtest.attribute_key %></td>
+      <td><%= matchtest.attribute_name %></td>
+      <td><%= matchtest.inputs %></td>
+      <td><%= matchtest.info %></td>
+      <td><%= matchtest.input_type %></td>
+      <td><%= matchtest.default_value %></td>
+      <td><%= link_to 'Show', matchtest %></td>
+      <td><%= link_to 'Edit', edit_matchtest_path(matchtest) %></td>
+      <td><%= link_to 'Destroy', matchtest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Matchtest', new_matchtest_path %></br>
+<%= link_to 'Matchtests Table', categories_path %></br>
+<%= link_to 'Relations Table', relations_path %></br>

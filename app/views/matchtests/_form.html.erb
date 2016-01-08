@@ -1,0 +1,24 @@
+<%= form_for(@matchtest) do |f| %>
+
+  <% if @matchtest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@matchtest.errors.count, "error") %> prohibited this matchtest from being saved:</h2>
+
+      <ul>
+      <% @matchtest.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  attribute_key: <%= f.text_field :attribute_key %></br>
+  attribute_name: <%= f.text_field :attribute_name %></br>
+  inputs: <%= f.text_area :inputs %></br>
+  info: <%= f.text_area :info %></br>
+  input_type: <%= f.text_field :input_type %></br>
+  default_value: <%= f.text_field :default_value %></br>
+
+    <%= f.submit %>
+
+<% end %>

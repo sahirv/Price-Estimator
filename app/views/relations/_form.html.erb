@@ -1,0 +1,23 @@
+<%= form_for(@relation) do |f| %>
+
+
+  <% if @relation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@relation.errors.count, "error") %> prohibited this relation from being saved:</h2>
+
+      <ul>
+      <% @relation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  Category_ID/ Category: <%= f.select :category_id, Category.all.collect { |p| [ p.category, p.id ] } %>
+  Matchtest_ID/ Attribute Name: <%= f.select :matchtest_id, Matchtest.all.collect { |p| [ p.attribute_name, p.id] } %>
+  Weight Constant: <%= f.number_field :weight_constant, :step => 'any' %></br>
+
+    <%= f.submit %>
+
+<% end %>

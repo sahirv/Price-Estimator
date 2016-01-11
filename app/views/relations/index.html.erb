@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Relations</h1>
+
+<table border="1" style="width=100%">
+  <tbody>
+    <tr>
+      <td><b>Relation ID<b></td>
+      <td><b>Category<b></td>
+      <td><b>Attribute Name<b></td>
+    </tr>
+    <% @relations.each do |relation| %>
+    <tr>
+      <td><%= relation.id %></td>
+      <td><%= relation.category.category %></td>
+      <td><%= relation.matchtest.attribute_name %></td>
+      <td><%= relation.weight_constant %></td>
+      <td><%= link_to 'Show', relation %></td>
+      <td><%= link_to 'Edit', edit_relation_path(relation) %></td>
+      <td><%= link_to 'Destroy', relation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Relation', new_relation_path %></br>
+<%= link_to 'Matchtests Table', matchtests_path %></br>
+<%= link_to 'Relations Table', categories_path %></br>

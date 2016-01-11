@@ -10,4 +10,3 @@ FD16 | DriveType = 0.0004 | dropdown = FWD, RWD, AWD, 4WD = Drive Type
 VF15 | FuelType = 0.0008 | dropdown = Bi-Fuel, Flex-Fuel, Diesel, Gasoline = None = Fuel Type
 DB09 | Option = 0.0009 | multiplechoice = Leather Seats, Sunroof, Xenon Headlights, Cold Weather Package, M Sports Package, Adaptive M Suspension, Navigation System, Driver Assistance Package, CD Player = None = Options
 18QA | PowerOption = 0.0006 | multiplechoice = Air Conditioning, Power Seats, Cruise Control, Power Locks, Power Windows, Power Seats = None = Power Options
-10OO | SafetyFeatures = 0.0004 | multiplechoice = Anti-lock Brakes, Air-bags, Passenger Air-bags, Side Air-bags = None = Safety Features

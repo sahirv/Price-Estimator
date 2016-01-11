@@ -11,19 +11,28 @@ body {
 	margin: 0px;
 }
 
-h3 {
+h1 {
 	font-family: 'Roboto', sans-serif;
 	font-weight: 600;
 	margin:0px;
 	text-align: center;
-	color: #007CFF;
-	font-size: 30px
+	color: #404040;
+	font-size: 75px
+}
+
+h4 {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+	margin:0px;
+	text-align: center;
+	color: #404040;
+	font-size: 25px
 }
 
 .navbar{
 	width: 100%;
 	height: 35px;
-	background-color: #4F85FF;
+	background-color: #fdfdfd;
 }
 
 .navbar ul{
@@ -35,11 +44,10 @@ h3 {
 
 .navbar li{
 	display: inline-block;
-	background-color: #4F85FF;
-	color: #fff;
+	color: #404040;
 	font-family: roboto;
 	font-size: 15px;
-	font-weight: 600;
+	font-weight: 300;
 	cursor: pointer;
 	float: right;
 	padding-top: 9px;
@@ -49,25 +57,55 @@ h3 {
 }
 
 .navbar li:hover{
-	background-color: #93B4FF;
-}
-
-.input-txt {
-	margin-left: 375px;
-    font-size: 30px;
-    width: 450px;
-    margin-top: 20px;
-    color: #b7b7b7;
-}
-
-.search-go {
-	font-size: 30px;
-    width: 100px;
-    border: 2px solid #2D5BFF;
-    background-color: #4F85FF;
-    color: #fff;
+	color: #000;
+    font-weight: 600;
 }
 
 .search {
-	margin-top: 50px;
+	margin-top: 30px;
+}
+
+.search .button {
+	font-size: 36px;
+    font-weight: 100;
+    width: 100px;
+    background-color: #EFEFEF;
+    color: #888888;
+    cursor: pointer;
+    border: none;
+}
+
+.search .button:hover{
+    border-radius: 2px;
+    border: 1px solid #989898;
+    color: #404040;
+    background-color: #EFEFEF;   
+}
+
+.search input{
+    font-size: 35px;
+    margin-top: 50px;
+    width: 540px;
+    color: #b7b7b7;
+    font-weight: 100;
+}
+
+.search-text{
+    text-align: center;
+    display: block;
+}
+
+.results{
+    /*display: none;*/
+    margin-top: 65px;
+}
+
+.price{
+    border-right: 1px solid #b7b7b7;
+    height: 500px
+}
+
+.price h2{
+    font-size: 90px;
+    text-align: center;
 }

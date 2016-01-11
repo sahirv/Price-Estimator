@@ -1,37 +1,42 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Price Estimator</title>
-    <meta charset="UTF-8">
-    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,600' rel='stylesheet' type='text/css'>
-    <link href='/assets/style.css' type='text/css' rel='stylesheet'>
-  </head>
-  <body>
-    <div class="navbar">
-      <ul>
-        <li>Home</li>
-        <li>About Us</li>
-      </ul>
-    </div>
-    <div class="row clearfix"></div>
-    <div class="col-sm-6 search">
-      <h3>What are you looking to sell?</h3>
-
-      <%= form_tag("welcome/search", method: "post", id:"formSearch") do %>
-    <input type="text" id="keyword" name="keyword" class="input-txt" placeholder="Product name">
-    <br>
-    <input type="text" id="numberOfResults" name="numberOfResults" class="input-txt" placeholder="How many results?">
-    <input type="text" id="4675" name="4675" class="input-txt" placeholder="Testing input?">
-
-    <%= hidden_field_tag(:condition) %>
-    <%= submit_tag("Go", id: "searchButton", class: "search-go") %>
-    </div>
-    <div class="results"></div>
-
-    <%= @inputs %>
-
-<% end %>
-    <script src="/assets/script.js"></script>
-  </body>
+    <head>
+        <title>Price Estimator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,600' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link href='/assets/style.css' type='text/css' rel='stylesheet'>
+    </head>
+    <body>
+        <div class="container">
+            <div class="navbar">
+                <ul>
+                    <li>Home</li>
+                    <li>About Us</li>
+                </ul>
+            </div>
+            <div class="row clearfix"></div>
+            <div class="search row">
+                <h1>Price Estimator</h1>
+                <h4>Obtain a precise estimate for any item you own</h4>
+                <div class="search-text">
+                    <%= form_tag("welcome/search", method: "post", id:"formSearch") do %>
+                        <input type="text" id="search-text">
+                        <%= submit_tag("Go", id: "searchButton", class: "button") %>
+                        <!--<input type="text" id="numberOfResults" name="numberOfResults" class="input-txt" placeholder="How many results?">
+                        <%= hidden_field_tag(:condition) %>-->
+                    <% end %>
+                </div>
+            </div>
+            <div class="results row">
+                <div class="price col-md-6"></div>
+                <div class="price-info col-md-6"></div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="/assets/script.js"></script>
+    </body>
 </html>

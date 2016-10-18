@@ -9,12 +9,34 @@ require "#{Rails.root}/app/Ebay Data/EbayData.rb"
 class WelcomeController < ApplicationController
 
   def index
+
+    # @inputs = []
+    #
+    # matchtest = Matchtest.all
+    # matchtest.each do |matchtest|
+    #   inputId = matchtest.id
+    #   inputString = matchtest.attribute_key
+    #   inputType = matchtest.input_type
+    #   inputOptions = matchtest.inputs
+    #   inputDefault = matchtest.default_value
+    #   inputTitle = matchtest.attribute_name
+    #
+    #   input = {"inputId" => inputId, "inputTitle" => inputTitle, "inputType" => inputType, "inputOptions" => inputOptions, "inputDefault" => inputDefault}
+    #   @inputs.push(input)
+    #
+    # end
+    #
+    # @inputs = JSON.generate(@inputs)
+
+
     if !(Dir.pwd.include? "public")
       Dir.chdir("public")
     end
+
     detailsFile = File.open("details.txt", "r")
 
     # read the details files to get the inputs for the category
+
     @inputs = []
     detailsFile.readlines.each_with_index do |detail, i|
       if i > 1
@@ -30,9 +52,12 @@ class WelcomeController < ApplicationController
       end
     end
 
+
+
     @inputs = JSON.generate(@inputs)
 
     detailsFile.close
+
   end
 
   def search
@@ -42,6 +67,10 @@ class WelcomeController < ApplicationController
     matchTests = []
 
     # TODO: Instead of a file, get pre-stored data from a database and add an interface for changing that data
+
+
+    id =
+
     if !(Dir.pwd.include? "public")
       Dir.chdir("public")
     end
@@ -56,8 +85,8 @@ class WelcomeController < ApplicationController
       id = (detail.split("|")[0]).strip
       logger.debug i
       matchTests.push(MatchTest.new(
-        id, 
-        ((detail.split("|")[1]).split("=")[0]).strip, 
+        id,
+        ((detail.split("|")[1]).split("=")[0]).strip,
         ((detail.split("|")[1]).split("=")[1]).strip.to_f,
         params[id]))
     end
@@ -90,7 +119,7 @@ class WelcomeController < ApplicationController
       @finalPrice += (result.priceUsd * result.weightTowardsFinal)
       logger.debug EbayData.GetNameValueFromHash(result.detailsHash, "Brand")
     end
-    
+
     @results = resultsArray
   end
 
@@ -101,7 +130,7 @@ class WelcomeController < ApplicationController
 
       sumOfPricesDollars = 0 # this variable stores the sum of all the new products
       countOfNewProducts = 0 # this variable stores the count of new products
-  		
+
       # For each product, add price to sum only if new
       results.each do |result|
 
@@ -117,7 +146,7 @@ class WelcomeController < ApplicationController
         return averageofPricesDollars
     end
 
-  end 
+  end
   # ---- end of FilterByCondition -------
 
   # This funtion returns the descriptions of all the items associated with the ItemId's in the array
@@ -141,10 +170,10 @@ class WelcomeController < ApplicationController
     end
 
     begin
-      responseParsed = JSON.parse(response.body)  
-    rescue JSON::ParserError => e  
+      responseParsed = JSON.parse(response.body)
+    rescue JSON::ParserError => e
       return "error occured: response can't be parsed. url: #{url}"
-    end 
+    end
 
     conditionDescription = responseParsed["Item"]["ConditionDescription"]
 
@@ -162,10 +191,10 @@ class WelcomeController < ApplicationController
     end
 
     begin
-      responseParsed = JSON.parse(response.body)  
-    rescue JSON::ParserError => e  
+      responseParsed = JSON.parse(response.body)
+    rescue JSON::ParserError => e
       return "errorParsing"
-    end 
+    end
 
     return responseParsed
   end
